@@ -1,6 +1,8 @@
 # -*- coding:UTF-8 -*-
 import streamlit as st
 import pandas as pd
+from utils import p_lans
+from PIL import Image
 
 def main():
     # title
@@ -47,6 +49,61 @@ def main():
 
     st.title('write()')
     st.write(iris)
+
+    myCode = """
+    def hello():
+        print("hi")
+    """
+    st.code(myCode, language="Python")
+
+    # 위젯, button 기능 활용
+    name = 'hanyoung'
+    if st.button('Submit'):
+        st.write(f'name: {name.upper()}')
+
+    # RadioButton
+    s_state = st.radio('Status', ('활성화', '비활성화'))
+    if s_state == '활성화':
+        st.success('활성화 상태')
+    else:
+        st.error('비활성화 상태')
+
+    # Check Box
+    if st.checkbox('show/hide'):
+        st.text('무엇가를 보여줘!!')
+
+    # Select Box
+    choice = st.selectbox('프로그래밍 언어', p_lans)
+    st.write(f'{choice} 언어를 선택함')
+
+
+    # multiple selection
+    lans = ("영어", "일본어", "중국어", "독일어")
+    myChoice = st.multiselect("언어 선택", lans, default="중국어")
+    st.write('선택', myChoice)
+
+    # slider
+    age = st.slider('나이', 1, 120)
+    st.write(age)
+
+    # 이미지 가져 오기
+    img = Image.open('data/image_03.jpg')
+    st.image(img)
+
+    # html로 이미지 가져 오기
+    url = 'https://cdn.pixabay.com/photo/2017/09/25/13/12/puppy-2785074_960_720.jpg'
+    st.image(url)
+
+    # 비디오 출력
+    with open('data/secret_of_success.mp4', 'rb') as rb:
+        video_file = rb.read()
+        st.video(video_file, start_time=1)
+     # 50MB 이하만 가능
+
+    # 오디오 출력
+    with open('data/song.mp3', 'rb') as rb:
+        audio_file = rb.read()
+        st.audio(audio_file, format='audio/mp3')
 
 if __name__ == '__main__':
     main()
