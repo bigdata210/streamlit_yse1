@@ -1,109 +1,28 @@
-# -*- coding:UTF-8 -*-
+# -*- coding:utf-8 -*-
 import streamlit as st
-import pandas as pd
-from utils import p_lans
-from PIL import Image
-
+from utils import html_temp
+from utils import dec_temp
+from eda_app import run_eda_app
+from ml_app import run_ml_app
+from stat_app import run_stat_app
 def main():
-    # title
-    st.title("Hello World")
+    st.markdown(html_temp, unsafe_allow_html=True)
 
-    # text
-    st.text('This is so {}'.format("good"))
+    menu = ['HOME', 'EDA', 'ML', 'About']
+    choice = st.sidebar.selectbox('Menu', menu)
 
-    # Header
-    st.header("This is Header")
+    if choice == 'HOME':
+        st.subheader('HOME')
+        st.markdown(dec_temp, unsafe_allow_html=True)
+    elif choice == 'EDA':
+        run_eda_app()     # run_eda_app는 함수이므로 () 표시
+    elif choice == 'ML':
+        run_ml_app()
+    elif choice == 'STAT':
+        run_stat_app()
 
-    # Subheader
-    st.subheader("This is subHeader")
-
-    # Markdown
-    st.markdown("## This is Markdown")
-
-    # 색상이 들어간 텍스트 feature
-    st.success('성공')
-    st.warning('경고')
-    st.info('정보와 관련된 탭')
-    st.error('에러 메세지')
-    st.exception('예외처리')
-
-    # st.write()
-    st.write('일반텍스트')
-    st.write(1+2)
-    st.write(dir(str))
-
-    st.title(':sunglasses:')
-
-    # Help
-    st.help(range)
-    st.help(st.title)
-
-    # 데이터 불러 오기
-    iris = pd.read_csv('data/iris.csv')
-
-    st.title("IRIS Table")
-    st.dataframe(iris, 500, 100)  # Height, Width
-
-    st.title('table()')
-    st.table(iris)
-
-    st.title('write()')
-    st.write(iris)
-
-    myCode = """
-    def hello():
-        print("hi")
-    """
-    st.code(myCode, language="Python")
-
-    # 위젯, button 기능 활용
-    name = 'hanyoung'
-    if st.button('Submit'):
-        st.write(f'name: {name.upper()}')
-
-    # RadioButton
-    s_state = st.radio('Status', ('활성화', '비활성화'))
-    if s_state == '활성화':
-        st.success('활성화 상태')
     else:
-        st.error('비활성화 상태')
+        st.subheader('About')
 
-    # Check Box
-    if st.checkbox('show/hide'):
-        st.text('무엇가를 보여줘!!')
-
-    # Select Box
-    choice = st.selectbox('프로그래밍 언어', p_lans)
-    st.write(f'{choice} 언어를 선택함')
-
-
-    # multiple selection
-    lans = ("영어", "일본어", "중국어", "독일어")
-    myChoice = st.multiselect("언어 선택", lans, default="중국어")
-    st.write('선택', myChoice)
-
-    # slider
-    age = st.slider('나이', 1, 120)
-    st.write(age)
-
-    # 이미지 가져 오기
-    img = Image.open('data/image_03.jpg')
-    st.image(img)
-
-    # html로 이미지 가져 오기
-    url = 'https://cdn.pixabay.com/photo/2017/09/25/13/12/puppy-2785074_960_720.jpg'
-    st.image(url)
-
-    # 비디오 출력
-    with open('data/secret_of_success.mp4', 'rb') as rb:
-        video_file = rb.read()
-        st.video(video_file, start_time=1)
-     # 50MB 이하만 가능
-
-    # 오디오 출력
-    with open('data/song.mp3', 'rb') as rb:
-        audio_file = rb.read()
-        st.audio(audio_file, format='audio/mp3')
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
